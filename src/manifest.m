@@ -1,0 +1,11 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "lime.c"
+#include "cli.h"
+#include "cli.c"
+#include "utils.h"
+#include "utils.c"
+#include "minIni.h"
+#include "minIni.c"
+#include "daemon.h"
+#include "daemon.c"
