@@ -48,8 +48,9 @@ void run_macro(char* file){
     }
     int looptime = 0;
     printf("Fail safe is: %ld\n", failsafe);
-    printf("Mouse X: %d\n", get_mouse_x());
-    printf("Mouse Y: %d\n", get_mouse_y());
+    printf("Mouse X: %f\n", get_mouse_x());
+    printf("Mouse Y: %f\n", get_mouse_y());
+    press_mouse(get_mouse_x(), get_mouse_y());
     printf("=== Macro Output ===\n");
     while (true){
         // press keys
@@ -98,4 +99,26 @@ void release_key(int key){
 void click_key(int key){
     press_key(key);
     release_key(key);
+}
+void press_mouse(float x, float y){
+    // Create MouseDown event
+        CGEventRef click1_down = CGEventCreateMouseEvent(
+            NULL, kCGEventLeftMouseDown,
+            CGPointMake(x, y),
+            kCGMouseButtonLeft
+            );
+        // Create MouseUp event
+        CGEventRef click1_up = CGEventCreateMouseEvent(
+                NULL, kCGEventLeftMouseUp,
+                CGPointMake(x, y),
+                kCGMouseButtonLeft
+        );
+        CGEventPost(kCGHIDEventTap, click1_down);
+        sleep(1);
+        // Mouse up
+        CGEventPost(kCGHIDEventTap, click1_up);
+        sleep(1);
+        // Release the events
+        CFRelease(click1_up);
+        CFRelease(click1_down);
 }

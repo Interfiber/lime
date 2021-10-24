@@ -5,8 +5,8 @@
 #include <stdarg.h>
 
 #endif // __OBJC__
-extern int get_mouse_x();
-extern int get_mouse_y();
+extern float get_mouse_x();
+extern float get_mouse_y();
 #ifdef __OBJC__
 @interface Interop : NSObject {
 }
