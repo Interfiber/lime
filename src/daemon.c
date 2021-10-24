@@ -3,23 +3,47 @@
 #include "utils.h"
 #include <ApplicationServices/ApplicationServices.h>
 #include <Carbon/Carbon.h>
+#include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 
 void run_macro(char* file){
     char name[500];
     char rate_str[500];
+    char press_keys[900];
+    int i, j, cnt;
     long rate = 0;
     char *ptr;
     printf("Loading macro from file: %s\n", file);
     ini_gets("macro", "name", "undefined", name, array_count(name), file);
     ini_gets("macro", "rate", "0", rate_str, array_count(rate_str), file);
+    ini_gets("macro", "press_keys", "n", press_keys, array_count(press_keys), file);
     printf("Current rate: %s\n", rate_str);
     printf("Starting macro...\n");
     rate = strtol(rate_str, &ptr, 10);
+    // Split press_keys
+    char splitStrings[40][40];
+
+    j = 0;
+    cnt = 0;
+    for (i = 0; i <= (strlen(press_keys)); i++) {
+        // if space or NULL found, assign NULL into splitStrings[cnt]
+        if (press_keys[i] == '-' || press_keys[i] == '\0') {
+            splitStrings[cnt][j] = '\0';
+            cnt++; //for next word
+            j = 0; //for next word, init index to 0
+        }
+        else {
+            splitStrings[cnt][j] = press_keys[i];
+            j++;
+        }
+    }
     while (true){
-      usleep(rate * 1000);
-      click_key(keycode_for_char(name));
+        char* press_keys_ptr = press_keys;
+        for (i = 0; i < cnt; i++)
+            click_key(keycode_for_char(splitStrings[i]));
+        usleep(rate * 1000);
     }
 }
 

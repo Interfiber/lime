@@ -2,6 +2,7 @@
     "files.associations": {
         "cli.h": "c",
         "minini.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "sstream": "c"
     }
 }
