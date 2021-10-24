@@ -40,7 +40,6 @@ void run_macro(char* file){
         }
     }
     while (true){
-        char* press_keys_ptr = press_keys;
         for (i = 0; i < cnt; i++)
             click_key(keycode_for_char(splitStrings[i]));
         usleep(rate * 1000);
