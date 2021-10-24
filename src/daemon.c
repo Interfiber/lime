@@ -50,7 +50,7 @@ void run_macro(char* file){
     printf("Fail safe is: %ld\n", failsafe);
     printf("Mouse X: %f\n", get_mouse_x());
     printf("Mouse Y: %f\n", get_mouse_y());
-    press_mouse(get_mouse_x(), get_mouse_y());
+    // press_mouse(get_mouse_x(), get_mouse_y());
     printf("=== Macro Output ===\n");
     while (true){
         // press keys
