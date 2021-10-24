@@ -3,6 +3,7 @@
         "cli.h": "c",
         "minini.h": "c",
         "typeinfo": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "utils.h": "c"
     }
 }

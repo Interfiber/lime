@@ -3,10 +3,14 @@
 #include "utils.h"
 #include <ApplicationServices/ApplicationServices.h>
 #include <Carbon/Carbon.h>
+#include <objc/objc.h>
+#include <Foundation/Foundation.h>
+#include <CoreFoundation/CoreFoundation.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "objc.h"
 
 void run_macro(char* file){
     char name[500];
@@ -37,14 +41,16 @@ void run_macro(char* file){
             splitStrings[cnt][j] = '\0';
             cnt++; //for next word
             j = 0; //for next word, init index to 0
-        }
-        else {
+        } else {
             splitStrings[cnt][j] = press_keys[i];
             j++;
         }
     }
     int looptime = 0;
     printf("Fail safe is: %ld\n", failsafe);
+    printf("Mouse X: %d\n", get_mouse_x());
+    printf("Mouse Y: %d\n", get_mouse_y());
+    printf("=== Macro Output ===\n");
     while (true){
         // press keys
         if (failsafe != 0){
