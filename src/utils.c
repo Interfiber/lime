@@ -23,15 +23,56 @@ int keycode_for_char(const char* keycode){
   } else if (strcmp(keycode, "c") == 0){
     output = kVK_ANSI_C;
   } else if (strcmp(keycode, "d") == 0){
-    output = kVK_ANSI_E;
+    output = kVK_ANSI_D;
   } else if (strcmp(keycode, "e") == 0){
     output = kVK_ANSI_E;
   } else if (strcmp(keycode, "f") == 0){
     output = kVK_ANSI_F;
+  } else if (strcmp(keycode, "g") == 0){
+    output = kVK_ANSI_G;
+  } else if (strcmp(keycode, "h") == 0){
+    output = kVK_ANSI_H;
+  } else if (strcmp(keycode, "i") == 0){
+    output = kVK_ANSI_I;
+  } else if (strcmp(keycode, "j") == 0){
+    output = kVK_ANSI_J;
+  } else if (strcmp(keycode, "k") == 0){
+    output = kVK_ANSI_K;
+  } else if (strcmp(keycode, "l") == 0){
+    output = kVK_ANSI_L;
+  } else if (strcmp(keycode, "m") == 0){
+    output = kVK_ANSI_M;
+  } else if (strcmp(keycode, "n") == 0){
+    output = kVK_ANSI_N;
+  } else if (strcmp(keycode, "o") == 0){
+    output = kVK_ANSI_O;
+  } else if (strcmp(keycode, "p") == 0){
+    output = kVK_ANSI_P;
+  } else if (strcmp(keycode, "q") == 0){
+    output = kVK_ANSI_Q;
+  } else if (strcmp(keycode, "r") == 0){
+    output = kVK_ANSI_R;
+  } else if (strcmp(keycode, "s") == 0){
+    output = kVK_ANSI_S;
+  } else if (strcmp(keycode, "t") == 0){
+    output = kVK_ANSI_T;
+  } else if (strcmp(keycode, "u") == 0){
+    output = kVK_ANSI_U;
+  } else if (strcmp(keycode, "v") == 0){
+    output = kVK_ANSI_V;
   } else if (strcmp(keycode, "w") == 0){
     output = kVK_ANSI_W;
+  } else if (strcmp(keycode, "x") == 0){
+    output = kVK_ANSI_X;
+  } else if (strcmp(keycode, "y") == 0){
+    output = kVK_ANSI_Y;
+  } else if (strcmp(keycode, "z") == 0){
+    output = kVK_ANSI_Z;
+  } else if (strcmp(keycode, " ") == 0){
+    output = kVK_Space;
   } else {
     printf("keycode is not supported\n");
+    printf("Keycode is >>%s<<", keycode);
     exit(1);
   }
   return output;

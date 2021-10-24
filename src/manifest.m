@@ -9,3 +9,5 @@
 #include "minIni.c"
 #include "daemon.h"
 #include "daemon.c"
+#include "overlay.h"
+#include "overlay.c"

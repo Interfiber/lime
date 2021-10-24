@@ -5,9 +5,16 @@ return {
       install_folder = "/opt/lime",
       name = "Default",
       payload = "payloads/default",
-      start_selected = true,
-      visible = true
-    }
+      selected = true,
+      visible = false
+    },
+    -- lemonade = {
+    --   install_folder = "/Applications",
+    --   name = "Lemonade",
+    --   payload = "payloads/lemonade",
+    --   selected = false,
+    --   visible = true
+    -- }
   },
   org_id = "dev.interfiber.lime",
   pkg_name = "Lime",
