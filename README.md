@@ -1,6 +1,8 @@
 # 🍋 Lime
 Macro creation tool for MacOs
 
+[![Makefile CI](https://github.com/Interfiber/lime/actions/workflows/makefile.yml/badge.svg)](https://github.com/Interfiber/lime/actions/workflows/makefile.yml)
+
 ![](demo.gif)
 
 ## Why Does lime require accessibility?
