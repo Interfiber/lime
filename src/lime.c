@@ -17,9 +17,9 @@ int main(int argc, char **argv){
         exit(1);
     } else {
         if (argc >= 2){
-            if (strncmp(argv[1], "new", 51) == 0){
+            if (strncmp(argv[1], "run", 51) == 0){
                 if (argc == 3){
-                    add_macro(argv[2]);
+                    run_macro(argv[2]);
                 } else {
                     printf("Expected argument file got nothing\n");
                     exit(1);
