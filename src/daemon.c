@@ -12,19 +12,23 @@ void run_macro(char* file){
     char name[500];
     char rate_str[500];
     char press_keys[900];
+    char failsafe_str[100];
     int i, j, cnt;
     long rate = 0;
-    char *ptr;
+    char *rate_ptr;
+    char *failsafe_ptr;
     printf("Loading macro from file: %s\n", file);
     ini_gets("macro", "name", "undefined", name, array_count(name), file);
     ini_gets("macro", "rate", "0", rate_str, array_count(rate_str), file);
+    ini_gets("macro", "failsafe", "0", failsafe_str, array_count(failsafe_str), file);
     ini_gets("macro", "press_keys", "n", press_keys, array_count(press_keys), file);
     printf("Current rate: %s\n", rate_str);
     printf("Starting macro...\n");
-    rate = strtol(rate_str, &ptr, 10);
+    rate = strtol(rate_str, &rate_ptr, 10);
     // Split press_keys
     char splitStrings[40][40];
-
+    // Convert failsafe
+    long failsafe = strtol(failsafe_str, &failsafe_ptr, 10);
     j = 0;
     cnt = 0;
     for (i = 0; i <= (strlen(press_keys)); i++) {
@@ -39,9 +43,23 @@ void run_macro(char* file){
             j++;
         }
     }
+    int looptime = 0;
+    printf("Fail safe is: %ld\n", failsafe);
     while (true){
-        for (i = 0; i < cnt; i++)
-            click_key(keycode_for_char(splitStrings[i]));
+        // press keys
+        if (failsafe != 0){
+            if (looptime >= failsafe){
+                printf("\nReached failsafe: exiting.\n");
+                exit(0);
+            }
+        }
+        for (i = 0; i < cnt; i++){
+          click_key(keycode_for_char(splitStrings[i]));
+        }
+        // click using the mouse
+        if (failsafe != 0){
+            looptime += 1;
+        }
         usleep(rate * 1000);
     }
 }
