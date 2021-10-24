@@ -19,7 +19,7 @@ void run_macro(char* file){
     rate = strtol(rate_str, &ptr, 10);
     while (true){
       usleep(rate * 1000);
-      click_key(keycode_for_char("f"));
+      click_key(keycode_for_char(name));
     }
 }
 
