@@ -12,4 +12,4 @@ Lime requires the Accessibility API to perform macro actions, such as pressing k
 Lime is currently under heavy development, so I can't tell you how without updating this every day.
 
 ## Auto clicker demo
-![](https://i.imgur.com/fg8sA29.mp4)
+![](autoclick_demo.gif)
