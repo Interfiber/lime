@@ -1,5 +1,5 @@
 # 🍋 Lime
-Macro creation tool for MacOs
+Macro creation tool for MacOS
 
 [![Makefile CI](https://github.com/Interfiber/lime/actions/workflows/makefile.yml/badge.svg)](https://github.com/Interfiber/lime/actions/workflows/makefile.yml)
 
