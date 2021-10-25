@@ -6,7 +6,10 @@ return {
       name = "Default",
       payload = "payloads/default",
       selected = true,
-      visible = false
+      visible = false,
+      scripts = {
+        postinstall = "postinstall"
+      }
     },
     -- lemonade = {
     --   install_folder = "/Applications",
