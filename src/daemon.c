@@ -125,10 +125,10 @@ void press_mouse(float x, float y){
                 kCGMouseButtonLeft
         );
         CGEventPost(kCGHIDEventTap, click1_down);
-        usleep(10 * 1000);
+        usleep(2 * 1000);
         // Mouse up
         CGEventPost(kCGHIDEventTap, click1_up);
-        usleep(10 * 1000);
+        usleep(2 * 1000);
         // Release the events
         CFRelease(click1_up);
         CFRelease(click1_down);
