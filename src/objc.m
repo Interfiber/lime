@@ -14,5 +14,5 @@ float get_mouse_y(){
     return (float)point.y;
 }
 void setup_hotkey(){
-
+    // Listen for global hotkey here
 }

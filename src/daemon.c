@@ -31,7 +31,7 @@ void run_macro(char* file){
     printf("Starting macro...\n");
     long rate = strtol(rate_str, &rate_ptr, 10);
     // Split press_keys
-    
+
     char splitStrings[40][40];
     // Convert failsafe
     long failsafe = strtol(failsafe_str, &failsafe_ptr, 10);
@@ -57,7 +57,6 @@ void run_macro(char* file){
     printf("=== Macro Output ===\n");
     while (true){
         // press keys
-        printf("%s", get_current_window());
         if (failsafe != 0){
             if (looptime >= failsafe){
                 printf("\nReached failsafe: exiting.\n");
