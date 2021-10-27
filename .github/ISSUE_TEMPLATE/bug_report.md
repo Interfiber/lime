@@ -9,6 +9,7 @@ assignees: ''
 
 **Describe the bug**
 A clear and concise description of what the bug is.
+
 Please make sure to read the contributing guide, or issue may be closed
 
 **To Reproduce**
