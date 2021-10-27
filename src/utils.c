@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <Carbon/Carbon.h>
+#include <ApplicationServices/ApplicationServices.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -77,4 +78,43 @@ int keycode_for_char(const char* keycode){
   }
   return output;
 }
-
+bool pressed_esc = false;
+bool pressed_quit = false;
+static CGEventRef hotkey_event(CGEventTapProxy proxy, CGEventType type, CGEventRef event, void *reference){
+  // The incoming keycode.
+  uint32_t keycode = CGEventGetIntegerValueField(event, kCGKeyboardEventKeycode);
+  unsigned short esc_code = kVK_Escape;
+  unsigned short quit_code = kVK_ANSI_Q;
+  if (keycode == esc_code){
+   pressed_esc = true; 
+  } else if (keycode == quit_code){
+    pressed_quit = true; 
+  } else {
+    pressed_esc = false;
+    pressed_quit = false;
+  }
+  if (pressed_esc && pressed_quit){
+    printf("Shutting down lime...");
+    exit(0);
+  }
+  return event;
+}
+void setup_shutdown_hotkey(){
+  printf("Creating event tap\n");
+  CFMachPortRef      event_tap;
+  CGEventMask        event_mask;
+  CFRunLoopSourceRef run_loop_src;
+  event_mask = ((1 << kCGEventKeyDown) | (1 << kCGEventKeyUp));
+  event_tap = CGEventTapCreate(kCGSessionEventTap, kCGHeadInsertEventTap, 0, event_mask, hotkey_event, NULL);
+  if(!event_tap){
+    printf("Failed to create event tap!\n");
+    exit(1);
+  }
+  // update the run loop
+  run_loop_src = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, event_tap, 0);
+  CFRunLoopAddSource(CFRunLoopGetCurrent(), run_loop_src, kCFRunLoopCommonModes);
+  // Enable the event tap
+  CGEventTapEnable(event_tap, true);
+  printf("Event tap enabled, and created.\n");
+  CFRunLoopRun();
+}

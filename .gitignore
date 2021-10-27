@@ -1,3 +1,4 @@
 bin/lime
 codesign.sh
 
+.DS_Store

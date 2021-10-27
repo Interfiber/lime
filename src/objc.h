@@ -7,7 +7,6 @@
 #endif // __OBJC__
 extern float get_mouse_x();
 extern float get_mouse_y();
-extern void setup_hotkey();
 #ifdef __OBJC__
 @interface Interop : NSObject {
 }

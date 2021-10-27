@@ -3,12 +3,18 @@
 #include "utils.h"
 #include <ApplicationServices/ApplicationServices.h>
 #include <Carbon/Carbon.h>
-#include <objc/objc.h>
-#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <pthread.h>
 #include "objc.h"
+
+void* worker(void* args){
+    printf("Worker: Worker spawned\n");
+    setup_shutdown_hotkey();
+    printf("Worker: End\n");
+    pthread_exit(NULL);
+}
 
 void run_macro(char* file){
     // create_overlay();
@@ -21,13 +27,13 @@ void run_macro(char* file){
     char *rate_ptr;
     char *failsafe_ptr;
     char *mouseclick_ptr;
+    printf("Starting background service...\n");
     printf("Loading macro from file: %s\n", file);
     ini_gets("macro", "name", "undefined", name, array_count(name), file);
     ini_gets("macro", "rate", "0", rate_str, array_count(rate_str), file);
     ini_gets("macro", "failsafe", "0", failsafe_str, array_count(failsafe_str), file);
     ini_gets("macro", "press_keys", "undefined", press_keys, array_count(press_keys), file);
     ini_gets("macro", "click_mouse", "0", mouseclicks_str, array_count(mouseclicks_str), file);
-    printf("Current rate: %s\n", rate_str);
     printf("Starting macro...\n");
     long rate = strtol(rate_str, &rate_ptr, 10);
     // Split press_keys
@@ -52,8 +58,12 @@ void run_macro(char* file){
     }
     int looptime = 0;
     printf("Fail safe is: %ld\n", failsafe);
+    printf("Rate is: %s\n", rate_str);
     printf("Mouse X: %f\n", get_mouse_x());
     printf("Mouse Y: %f\n", get_mouse_y());
+    // Spawn background thread
+    pthread_t worker_ptid;
+    pthread_create(&worker_ptid, NULL, &worker, pthread_self());
     printf("=== Macro Output ===\n");
     while (true){
         // press keys

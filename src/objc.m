@@ -13,6 +13,3 @@ float get_mouse_y(){
     CFRelease(event);
     return (float)point.y;
 }
-void setup_hotkey(){
-    // Listen for global hotkey here
-}

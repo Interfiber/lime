@@ -6,3 +6,4 @@
 
 int has_ax_access();
 int keycode_for_char(const char* keycode);
+void setup_shutdown_hotkey();
