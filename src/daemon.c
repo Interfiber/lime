@@ -57,6 +57,7 @@ void run_macro(char* file){
     printf("=== Macro Output ===\n");
     while (true){
         // press keys
+        printf("%s", get_current_window());
         if (failsafe != 0){
             if (looptime >= failsafe){
                 printf("\nReached failsafe: exiting.\n");

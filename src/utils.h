@@ -6,3 +6,4 @@
 
 int has_ax_access();
 int keycode_for_char(const char* keycode);
+char* get_current_window();

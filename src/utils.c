@@ -77,3 +77,9 @@ int keycode_for_char(const char* keycode){
   }
   return output;
 }
+char* get_current_window(){
+  FILE *fp;
+  int status;
+  char path[900];
+  system("osascript -e \"global frontApp, frontAppName\n set window title to ''\ntell application 'System Events'\nset frontApp to first application process whose frontmost is true\nset frontAppName to name of frontApp\ntell process frontAppName\nend tell return {frontAppName}\"");
+}
