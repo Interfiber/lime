@@ -9,7 +9,7 @@ Macro creation tool for MacOS
 Lime requires the Accessibility API to perform macro actions, such as pressing keys. Disabling accessibility will make lime a useless piece of software that does nothing.
 
 ## How do I use lime?
-You can view th up-to-date docs at the [wiki](https://github.com/Interfiber/lime/wiki)
+You can view the up-to-date docs at the [wiki](https://github.com/Interfiber/lime/wiki)
 
 ## Auto clicker demo
 ![](autoclick_demo.gif)
