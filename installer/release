@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+if [ -z "$CODESIGN_ID" ]; then
+  echo "WARN: Failed to codesign: id not found. Enter the value below"
+  read CODESIGN_ID
+fi
+if [ -z "$CODESIGN_INSTALLER_ID" ]; then
+  echo "WARN: Failed to codesign: installer id not found. Enter the value below"
+  read CODESIGN_INSTALLER_ID
+fi
+if [ -z "$NOTARYTOOL_KEYCHAIN" ]; then
+  echo "WARN: Failed to codesign: notarytool keychain not found. Enter the value below"
+  read NOTARYTOOL_KEYCHAIN
+fi
+echo "Using codesign identity: $CODESIGN_ID"
+echo "#####    Build Binary    #####"
+if [ ! -f "Makefile" ]; then
+  echo "ERR: Failed to build products: Makefile not found in $PWD"
+  exit 1
+fi
+make
+cp ./bin/lime installer/lime_bin
+echo "#####    Prep Installer    #####"
+if [ ! -f "$(which pak)" ]; then
+  echo "ERR: pak is not installed! Install it from: https://github.com/Interfiber/pak"
+  exit 1
+fi
+cd installer
+mkdir -p payloads/default/bin
+cp ../LICENSE payloads/default/MIT_LICENSE.txt
+cp lime_bin payloads/default/bin/lime
+mkdir build
+mkdir .build_cache
+codesign --deep --force --verbose --sign "$CODESIGN_ID" --options=runtime payloads/default/bin/*
+echo "#####    Build Installer    #####"
+pak build
+echo "#####    Codesign Installer    #####"
+productsign --sign "$CODESIGN_INSTALLER_ID" build/lime.pkg Lime\ Installer.pkg
+echo "#####    Upload Installer    #####"
+xcrun notarytool submit --keychain-profile "$NOTARYTOOL_KEYCHAIN"  Lime\ Installer.pkg --wait
+echo "#####    Staple Installer    #####"
+xcrun stapler staple Lime\ Installer.pkg
+echo "#####    Uploading Installer    #####"
+if  [ ! -f "$(which gh)" ]; then
+  echo "Can't upload release, GitHub cli not installed!"
+  echo "Please upload the release manually."
+  exit 0
+fi
+# Login the user
+echo "# Logging in with the github cli..."
+gh auth login
+echo "# Creating release..."
+echo "# Enter version number:"
+read VERSION_NUMBER
+gh release create $VERSION_NUMBER --notes "Upload complete. Edit this release to update the release notes" Lime\ Installer.pkg
