@@ -1,5 +1,7 @@
 #!/bin/bash
 
-touch /etc/paths.d/lime
-echo "/opt/lime/bin" >> /etc/paths.d/lime
-echo "Postinstall complete" >> /tmp/lime.preinstall.log
+if [ ! -f "/etc/paths.d/lime" ]; then
+  touch /etc/paths.d/lime
+  echo "/opt/lime/bin" >> /etc/paths.d/lime
+fi
+echo "Postinstall complete" >> /tmp/lime.postinstall.log
