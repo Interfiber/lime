@@ -7,10 +7,9 @@
 
 int main(int argc, char **argv){
     // check for permissons
-    if (has_ax_access()){
-        printf("Permissons: Granted!\n");
-    } else {
-        printf("Permissons: Not granted!\n");
+    if (!has_ax_access()){
+        print_permisson_msg();
+        exit(1);
     }
     if (argc == 1){
         print_help();
@@ -24,7 +23,9 @@ int main(int argc, char **argv){
                     printf("Expected argument file got nothing\n");
                     exit(1);
                 }
-            } else {
+            } else if (strncmp(argv[1], "--version", 51) == 0){
+                print_version();
+            }else {
                 printf("Unknown Command %s\n", argv[1]);
             }
         } else {
