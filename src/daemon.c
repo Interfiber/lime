@@ -1,5 +1,4 @@
 #include "daemon.h"
-#include "minIni.h"
 #include "utils.h"
 #include <ApplicationServices/ApplicationServices.h>
 #include <Carbon/Carbon.h>
@@ -17,7 +16,6 @@ void* worker(void* args){
 }
 
 void run_macro(char* file){
-    // create_overlay();
     char name[500];
     char rate_str[500];
     char press_keys[900];
@@ -29,11 +27,7 @@ void run_macro(char* file){
     char *mouseclick_ptr;
     printf("Starting background service...\n");
     printf("Loading macro from file: %s\n", file);
-    ini_gets("macro", "name", "undefined", name, array_count(name), file);
-    ini_gets("macro", "rate", "0", rate_str, array_count(rate_str), file);
-    ini_gets("macro", "failsafe", "0", failsafe_str, array_count(failsafe_str), file);
-    ini_gets("macro", "press_keys", "undefined", press_keys, array_count(press_keys), file);
-    ini_gets("macro", "click_mouse", "0", mouseclicks_str, array_count(mouseclicks_str), file);
+    // read data from json file
     printf("Starting macro...\n");
     long rate = strtol(rate_str, &rate_ptr, 10);
     // Split press_keys
