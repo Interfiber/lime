@@ -26,8 +26,31 @@ void run_macro(char* file){
     char *failsafe_ptr;
     char *mouseclick_ptr;
     printf("Starting background service...\n");
-    printf("Loading macro from file: %s\n", file);
+    printf("Loading macro from file: %s...\n", file);
     // read data from json file
+    FILE *macro_file;
+    macro_file =fopen (file, "rb");
+    if (!macro_file){
+        printf("Failed to open file!\n");
+        exit(1);
+    }
+    char * macro_data = 0;
+    long length;
+    fseek (macro_file, 0, SEEK_END);
+    length = ftell (macro_file);
+    fseek (macro_file, 0, SEEK_SET);
+    macro_data = malloc (length);
+    if (macro_data){
+        fread (macro_data, 1, length, macro_file);
+    }
+    fclose (macro_file);
+    // Parse the data
+    cJSON* macro = parse_macro_file(macro_data);
+    const cJSON *keys = NULL;
+    keys = cJSON_GetObjectItemCaseSensitive(macro, "press_keys");
+    if (cJSON_IsString(keys) && (keys->valuestring != NULL)){
+        printf("Data result: %s\n", keys->valuestring);
+    }
     printf("Starting macro...\n");
     long rate = strtol(rate_str, &rate_ptr, 10);
     // Split press_keys
