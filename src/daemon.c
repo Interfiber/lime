@@ -61,7 +61,7 @@ void run_macro(char* file){
         press_keys = keys->valuestring;
     } else {
         // The default value
-        press_keys = "";
+        press_keys = "undefined";
     }
     
     // parse rate
