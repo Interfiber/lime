@@ -9,34 +9,92 @@
 #include "objc.h"
 
 void* worker(void* args){
-    printf("Worker: Worker spawned\n");
     setup_shutdown_hotkey();
-    printf("Worker: End\n");
     pthread_exit(NULL);
 }
 
 void run_macro(char* file){
-    char name[500];
-    char rate_str[500];
-    char press_keys[900];
-    char failsafe_str[100];
-    char mouseclicks_str[300];
+    char* name;
+    char* rate_str;
+    char* press_keys = NULL;
+    char* failsafe_str;
+    char* mouseclicks_str;
     int i, j, cnt;
     char *rate_ptr;
     char *failsafe_ptr;
     char *mouseclick_ptr;
     printf("Starting background service...\n");
-    printf("Loading macro from file: %s\n", file);
+    // Spawn background thread
+    pthread_t worker_ptid;
+    pthread_create(&worker_ptid, NULL, &worker, pthread_self());
+    printf("Loading macro from file: %s...\n", file);
     // read data from json file
-    printf("Starting macro...\n");
-    long rate = strtol(rate_str, &rate_ptr, 10);
-    // Split press_keys
+    FILE *macro_file;
+    macro_file =fopen (file, "rb");
+    if (!macro_file){
+        printf("Failed to open file!\n");
+        exit(1);
+    }
+    char * macro_data = 0;
+    long length;
+    fseek (macro_file, 0, SEEK_END);
+    length = ftell (macro_file);
+    fseek (macro_file, 0, SEEK_SET);
+    macro_data = malloc (length);
+    if (macro_data){
+        fread (macro_data, 1, length, macro_file);
+    }
+    fclose (macro_file);
+    // Parse the data
+    cJSON* macro = parse_macro_file(macro_data);
+    // Declate parsing variables
+    const cJSON *keys = NULL;
+    const cJSON *macro_rate = NULL;
+    const cJSON *macro_failsafe = NULL;
+    const cJSON *macro_clicks = NULL;
+    keys = cJSON_GetObjectItemCaseSensitive(macro, "press_keys");
+    macro_rate = cJSON_GetObjectItemCaseSensitive(macro, "rate");
+    macro_failsafe = cJSON_GetObjectItemCaseSensitive(macro, "failsafe");
+    macro_clicks = cJSON_GetObjectItemCaseSensitive(macro, "click_mouse");
+    // parse press_keys
+    if (cJSON_IsString(keys) && (keys->valuestring != NULL)){
+        press_keys = keys->valuestring;
+    } else {
+        // The default value
+        press_keys = "undefined";
+    }
+    
+    // parse rate
+    if (cJSON_IsString(macro_rate) && (macro_rate->valuestring != NULL)){
+        rate_str = macro_rate->valuestring;
+    } else {
+        // The default value
+        // you can set this to a string because we convert it later.
+        rate_str = "900";
+    }
 
-    char splitStrings[40][40];
-    // Convert failsafe
+    // parse failsafe
+    if (cJSON_IsString(macro_failsafe) && (macro_failsafe->valuestring != NULL)){
+        failsafe_str = macro_rate->valuestring;
+    } else {
+        // The default value
+        // you can set this to a string because we convert it later.
+        failsafe_str = "0";
+    }
+    // parse mouseclicks
+    if (cJSON_IsString(macro_clicks) && (macro_clicks->valuestring != NULL)){
+        mouseclicks_str = macro_clicks->valuestring;
+    } else {
+        // The default value
+        // you can set this to a string because we convert it later.
+        mouseclicks_str = "0";
+    }
+    // Convert types
+    long rate = strtol(rate_str, &rate_ptr, 10);
     long failsafe = strtol(failsafe_str, &failsafe_ptr, 10);
-    // Convert mouseclicks
     long mouseclicks = strtol(mouseclicks_str, &mouseclick_ptr, 10);
+    // Split press_keys
+    char splitStrings[40][40];
     j = 0;
     cnt = 0;
     for (i = 0; i <= (strlen(press_keys)); i++) {
@@ -50,14 +108,11 @@ void run_macro(char* file){
             j++;
         }
     }
+    printf("Starting macro...\n");
     int looptime = 0;
     printf("Fail safe is: %ld\n", failsafe);
     printf("Rate is: %s\n", rate_str);
-    printf("Mouse X: %f\n", get_mouse_x());
-    printf("Mouse Y: %f\n", get_mouse_y());
-    // Spawn background thread
-    pthread_t worker_ptid;
-    pthread_create(&worker_ptid, NULL, &worker, pthread_self());
+    printf("Mouse clicks: %ld\n", mouseclicks);
     printf("=== Macro Output ===\n");
     while (true){
         // press keys

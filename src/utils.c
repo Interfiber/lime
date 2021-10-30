@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "cJSON.h"
 #include <Carbon/Carbon.h>
 #include <ApplicationServices/ApplicationServices.h>
 #include <stdlib.h>
@@ -117,4 +118,21 @@ void setup_shutdown_hotkey(){
   CGEventTapEnable(event_tap, true);
   printf("Event tap enabled, and created.\n");
   CFRunLoopRun();
+}
+cJSON* parse_macro_file(char* data){
+  // Parse the macro file with cJSON
+  cJSON *root_json = cJSON_Parse(data);
+  // Check for errors
+  if (root_json == NULL){
+    printf("Error while parsing macro json:\n");
+    const char *error_ptr = cJSON_GetErrorPtr();
+    if (error_ptr != NULL){
+        fprintf(stderr, "Error message: %s\n", error_ptr);
+    } else {
+      printf("Failed to retrive error, error_ptr is NULL\n");
+    }
+    exit(1);
+  }
+  // return the root_json
+  return root_json;
 }
