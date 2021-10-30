@@ -10,8 +10,8 @@ void print_help(){
 void print_version(){
     printf("Version info: \n");
     printf("Current license: MIT\n");
-    printf("Release tag: Testing Version\n");
-    printf("Version: Testing Version\n");
+    printf("Release tag: v1.1.0\n");
+    printf("Version: 1.1.0\n");
 }
 void print_permisson_msg(){
     printf("Hmmm... lime dosent seem to have accessibility permissons!\n");
