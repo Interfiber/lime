@@ -113,7 +113,6 @@ void run_macro(char* file){
     printf("Fail safe is: %ld\n", failsafe);
     printf("Rate is: %s\n", rate_str);
     printf("Mouse clicks: %ld\n", mouseclicks);
-    exit(0);
     printf("=== Macro Output ===\n");
     while (true){
         // press keys
