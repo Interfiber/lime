@@ -72,6 +72,8 @@ int keycode_for_char(const char* keycode){
     output = kVK_ANSI_Z;
   } else if (strcmp(keycode, " ") == 0){
     output = kVK_Space;
+  } else if (strcmp(keycode, "/return") == 0){
+    output = kVK_Return;
   } else {
     printf("keycode is not supported\n");
     printf("Keycode is >>%s<<", keycode);
