@@ -14,7 +14,6 @@ void* worker(void* args){
 }
 
 void run_macro(char* file){
-    char* name;
     char* rate_str;
     char* press_keys = NULL;
     char* failsafe_str;

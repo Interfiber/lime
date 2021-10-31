@@ -6,9 +6,9 @@
 #include "utils.h"
 
 int main(int argc, char **argv){
-    // check for permissons
+    // check for permissions
     if (!has_ax_access()){
-        print_permisson_msg();
+        print_permission_msg();
         exit(1);
     }
     if (argc == 1){
