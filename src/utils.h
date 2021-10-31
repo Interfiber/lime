@@ -8,4 +8,5 @@
 int has_ax_access();
 int keycode_for_char(const char* keycode);
 void setup_shutdown_hotkey();
+char* get_frontmost_app();
 cJSON* parse_macro_file(char* data);

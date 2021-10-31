@@ -18,6 +18,7 @@ void run_macro(char* file){
     char* press_keys = NULL;
     char* failsafe_str;
     char* mouseclicks_str;
+    char* frontmost_str;
     int i, j, cnt;
     char *rate_ptr;
     char *failsafe_ptr;
@@ -51,10 +52,12 @@ void run_macro(char* file){
     const cJSON *macro_rate = NULL;
     const cJSON *macro_failsafe = NULL;
     const cJSON *macro_clicks = NULL;
+    const cJSON *macro_frontmost = NULL;
     keys = cJSON_GetObjectItemCaseSensitive(macro, "press_keys");
     macro_rate = cJSON_GetObjectItemCaseSensitive(macro, "rate");
     macro_failsafe = cJSON_GetObjectItemCaseSensitive(macro, "failsafe");
     macro_clicks = cJSON_GetObjectItemCaseSensitive(macro, "click_mouse");
+    macro_frontmost = cJSON_GetObjectItemCaseSensitive(macro, "frontmost_executable_name");
     // parse press_keys
     if (cJSON_IsString(keys) && (keys->valuestring != NULL)){
         press_keys = keys->valuestring;
@@ -88,6 +91,12 @@ void run_macro(char* file){
         // you can set this to a string because we convert it later.
         mouseclicks_str = "0";
     }
+    // parse frontmost
+    if (cJSON_IsString(macro_frontmost) && (macro_frontmost->valuestring != NULL)){
+        frontmost_str = macro_frontmost->valuestring;
+    } else {
+        frontmost_str = "undefined";
+    }
     // Convert types
     long rate = strtol(rate_str, &rate_ptr, 10);
     long failsafe = strtol(failsafe_str, &failsafe_ptr, 10);
@@ -115,6 +124,12 @@ void run_macro(char* file){
     printf("=== Macro Output ===\n");
     while (true){
         // press keys
+        if (strcmp(frontmost_str, "undefined") != 0){
+            char* frontmost = get_frontmost_app();
+            if (strstr(frontmost, frontmost_str) == NULL){
+                continue;
+            }
+        }
         if (failsafe != 0){
             if (looptime >= failsafe){
                 printf("\nReached failsafe: exiting.\n");

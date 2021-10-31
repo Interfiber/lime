@@ -1,5 +1,5 @@
 {
-    "press_keys": "a-b-c",
-    "click_mouse": "400",
-    "rate": "500"
+    "rate": "1",
+    "click_mouse": "50",
+    "frontmost_executable_name": "TextEdit"
 }

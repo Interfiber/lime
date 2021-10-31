@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import "objc.h"
 
 float get_mouse_x(){
