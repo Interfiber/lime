@@ -140,20 +140,3 @@ cJSON* parse_macro_file(char* data){
   // return the root_json
   return root_json;
 }
-char* get_frontmost_app(){
-  char* applescript = "osascript -e 'tell application \"System Events\"\nset activeApp to name of first application process whose frontmost is true\nreturn activeApp\nend tell'";
-  // Use applescript because the apple API is a nightmare to wrap you're head around
-  FILE* pipe = popen(applescript, "r");
-  if (!pipe){
-    printf("Failed to execute applescript!\n");
-    exit(1);
-  }
-  char buffer[128];
-  char* result_data = "";
-  while(!feof(pipe)){
-    if (fgets(buffer, 128, pipe) != NULL){
-      result_data = buffer;
-    }
-  }
-  return result_data;
-}
