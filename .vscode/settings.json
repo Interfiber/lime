@@ -4,6 +4,7 @@
         "minini.h": "c",
         "typeinfo": "c",
         "sstream": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "bitset": "c"
     }
 }
